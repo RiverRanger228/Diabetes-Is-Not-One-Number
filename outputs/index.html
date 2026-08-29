@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diabetes Is Not One Number — glucose, BMI, and age, three clocks</title>
+  <meta name="description" content="A scrollytelling data essay on 768 Pima Indian women from the Pima Indians Diabetes Dataset, with every chart scoped to the 1980s study.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <nav class="progress-rail" aria-label="Story sections" id="rail"></nav>
+
+  <header class="hero" id="top">
+    <div class="wrap hero-inner">
+      <div>
+        <p class="eyebrow">Data essay / Pima Indians Diabetes Dataset / n = 768</p>
+        <h1>Diabetes Is Not One Number <em>glucose, BMI, and age, three clocks</em></h1>
+        <p class="hero-lede">Every woman in this 1980s public-health file is a dot, a tile, and a caution. Seven predictors keep their own units and their own stories; no chart merges them into one composite score.</p>
+        <dl class="hero-meta">
+          <div><dt>Cohort</dt><b>768 women</b></div>
+          <div><dt>Outcome labels</dt><b>500 / 268</b></div>
+          <div><dt>Era</dt><b>1980s</b></div>
+          <div><dt>Features + Outcome</dt><b>8 + 1</b></div>
+        </dl>
+      </div>
+      <aside class="hero-side">
+        <p class="mono">Vintage field kit</p>
+        <div class="pixel-stage">
+          <svg viewBox="0 0 64 64" role="img" aria-label="Pixel art glucose meter">
+            <rect x="18" y="10" width="28" height="46" fill="#26342e"/>
+            <rect x="21" y="13" width="22" height="15" fill="#d3e6e0"/>
+            <rect x="24" y="15" width="16" height="11" fill="#2f7d7a"/>
+            <rect x="25" y="18" width="8" height="3" fill="#f0d39a"/>
+            <rect x="25" y="23" width="12" height="2" fill="#c24f3c"/>
+            <rect x="21" y="31" width="22" height="4" fill="#c24f3c"/>
+            <rect x="24" y="38" width="9" height="5" fill="#d99b2b"/>
+            <rect x="35" y="38" width="9" height="5" fill="#d99b2b"/>
+            <rect x="28" y="46" width="12" height="5" fill="#7e9187"/>
+          </svg>
+          <svg viewBox="0 0 64 64" role="img" aria-label="Pixel art syringe">
+            <rect x="24" y="4" width="16" height="8" fill="#c24f3c"/>
+            <rect x="26" y="12" width="12" height="40" fill="#d3e6e0"/>
+            <rect x="29" y="14" width="6" height="36" fill="#2f7d7a"/>
+            <rect x="26" y="52" width="12" height="3" fill="#26342e"/>
+            <rect x="30" y="10" width="4" height="6" fill="#26342e"/>
+            <rect x="38" y="30" width="16" height="2" fill="#8e3024"/>
+            <rect x="54" y="29" width="4" height="4" fill="#8e3024"/>
+          </svg>
+        </div>
+        <div class="mono" style="margin-top:10px;font-size:11px;color:var(--ink-soft);">Field instruments from the dataset's era, redrawn in pixels.</div>
+      </aside>
+    </div>
+  </header>
+
+  <section class="truth-band" id="truth" aria-labelledby="truth-title">
+    <div class="wrap truth-grid">
+      <div>
+        <p class="stamp">Truth in labeling</p>
+        <h2 id="truth-title" style="color:#fff;font-size:clamp(28px,4vw,44px);">Read this file as a file.</h2>
+      </div>
+      <div>
+        <p>The essay below is a public-health data essay, not a clinical tool. It stays inside the boundaries of the attached CSV and says so whenever a claim reaches the edge.</p>
+        <ul class="truth-list">
+          <li>768 Pima Indian women aged 21+</li>
+          <li>Data collected in the 1980s</li>
+          <li>No HbA1c or lipid measurements</li>
+          <li>8 features + 1 outcome label</li>
+          <li>500 non-diabetic, 268 diabetic</li>
+          <li>Zero values are treated as possible missing records, not measured lows</li>
+          <li>No conclusion generalizes to other populations</li>
+          <li>Predictions are model outputs, not diagnoses</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="story-section" id="features" data-section-title="Seven fields">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">01 / Separate instruments</p>
+          <h2>Seven predictors, seven clocks</h2>
+          <p>Each variable keeps its own axis, unit, and distribution. The panels below show glucose, blood pressure, skin thickness, insulin, BMI, diabetes pedigree function, and age against the two outcome labels. Correlations will appear, but nothing here is folded into one composite score.</p>
+        </div>
+        <div class="feature-grid" id="featureGrid"></div>
+        <div class="panel" style="margin-top:18px;">
+          <div class="panel-label"><span>Correlation field notes</span><span>Pearson r after median imputation</span></div>
+          <div id="correlationStrip"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section" id="scatter" data-section-title="Glucose-risk">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">02 / The anchor</p>
+          <h2>All 768 women on one glucose-risk scatter</h2>
+          <p>Glucose is the strongest single signal in this file. Every dot is one woman; the vertical position is her out-of-fold logistic predicted probability, and the color is her actual outcome label. Threshold pins turn probabilities into decisions.</p>
+        </div>
+        <div class="scrolly">
+          <div class="scrolly-copy">
+            <article class="step" data-step="1">
+              <span class="step-no">STEP 1</span>
+              <h3>Read the field</h3>
+          <p>Glucose spans 0 to 199 mg/dL. The small dots are real women; the diagonal band is the model's rising risk as glucose climbs.</p>
+            </article>
+            <article class="step" data-step="2">
+              <span class="step-no">STEP 2</span>
+              <h3>At the 0.5 pin</h3>
+              <p>Out-of-fold logistic predictions, threshold 0.5: false positives sit above the line in teal, false negatives below it in red.</p>
+            </article>
+            <article class="step" data-step="3">
+              <span class="step-no">STEP 3</span>
+              <h3>A threshold is a choice</h3>
+              <p>Raise or lower the pin and the trade between false positives and false negatives moves. No single number is the truth.</p>
+            </article>
+          </div>
+          <div class="scrolly-stage" id="scatterStage" aria-label="Glucose-risk scatter of 768 women">
+            <svg id="scatterSvg" viewBox="0 0 760 620" role="img" aria-label="Scatter of glucose and predicted risk"></svg>
+          </div>
+        </div>
+        <div class="legend" id="scatterLegend"></div>
+      </div>
+    </section>
+
+    <section class="story-section" id="tiles" data-section-title="Fates">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">03 / 768 fates</p>
+          <h2>A tile wall of predictions and outcomes</h2>
+          <p>Each tile is one woman. Hover to inspect her record. The four fate classes show where a 0.5 logistic threshold agrees with the dataset label and where it does not.</p>
+        </div>
+        <div class="tile-actions" id="tileActions"></div>
+        <div class="panel tile-wrap">
+          <div class="panel-label"><span>Patient tile wall</span><span id="tileCount">768 records</span></div>
+          <svg id="tileSvg" viewBox="0 0 960 520" role="img" aria-label="Tile wall of 768 patient fates"></svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section" id="bins" data-section-title="Prevalence">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">04 / Group rates</p>
+          <h2>Prevalence changes by bin</h2>
+          <p>Age decade, BMI band, and glucose bucket each carry a different share of diabetic labels. The bars split every bin into non-diabetic and diabetic women; the rate is printed at the end.</p>
+        </div>
+        <div class="bins-grid" id="binsGrid"></div>
+      </div>
+    </section>
+
+    <section class="story-section" id="iso" data-section-title="Feature risk">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">05 / One variable at a time</p>
+          <h2>How far each feature moves predicted probability</h2>
+          <p>These seven towers use single-variable logistic curves: each height shows the probability at the 10th versus 90th percentile of that feature, holding nothing else fixed. They are marginal, not causal.</p>
+        </div>
+        <div class="panel iso-stage">
+          <svg id="isoSvg" viewBox="0 0 960 520" role="img" aria-label="Isometric feature-to-risk chart"></svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section" id="threshold" data-section-title="Crossing">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">06 / A woman crosses the line</p>
+          <h2>One feature change can flip a decision</h2>
+          <p>This is a real record from the file. Move one measured field and watch the logistic prediction travel across the 0.5 decision line.</p>
+        </div>
+        <div class="demo-grid">
+          <div class="panel">
+            <div class="panel-label"><span>Threshold crossing simulator</span><span id="demoRecordLabel">record</span></div>
+            <div class="demo-actions" id="demoFeatureButtons"></div>
+            <div class="demo-control" id="demoSliderWrap">
+              <label for="demoSlider"><span id="demoSliderLabel">Glucose</span><span id="demoValue"></span></label>
+              <input type="range" id="demoSlider" min="0" max="100" step="1" value="50">
+            </div>
+            <svg id="demoSvg" viewBox="0 0 760 300" role="img" aria-label="Probability curve and decision line"></svg>
+            <button type="button" class="seg-btn" id="demoAnimate" style="margin-top:12px;">Animate to crossing</button>
+          </div>
+          <aside>
+            <div class="demo-status" id="demoStatus"></div>
+            <div class="demo-readout">
+              <div><span>Actual label</span><b id="demoOutcome"></b></div>
+              <div><span>Predicted prob</span><b id="demoProb"></b></div>
+              <div><span>Model call</span><b id="demoCall"></b></div>
+              <div><span>Feature value</span><b id="demoFeatureValue"></b></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section" id="benchmark" data-section-title="Benchmark">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">07 / Five models</p>
+          <h2>Five-model benchmark scorecard</h2>
+          <p>Logistic regression, decision tree, random forest, SVM, and XGBoost were each trained on the same zero-aware median-imputed features, standardized inside every one of five stratified folds. Metrics are averaged across folds at a 0.5 threshold; AUC does not depend on that threshold.</p>
+        </div>
+        <div class="panel benchmark-wrap">
+          <table class="benchmark-table" id="benchmarkTable">
+            <thead>
+              <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>AUC</th><th>Train acc</th></tr>
+            </thead>
+            <tbody id="benchmarkBody"></tbody>
+          </table>
+        </div>
+        <p class="bench-note" id="benchmarkNote"></p>
+      </div>
+    </section>
+
+    <section class="story-section" id="gauges" data-section-title="Gauges">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">08 / Cohort means</p>
+          <h2>Three radial gauges against clinical thresholds</h2>
+          <p>The dataset's mean glucose, BMI, and age sit in different relation to familiar screening thresholds. The needles are cohort means, not diagnoses.</p>
+        </div>
+        <div class="gauge-grid" id="gaugeGrid"></div>
+      </div>
+    </section>
+
+    <section class="story-section" id="signals" data-section-title="Model signals">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">09 / Modeling signal cards</p>
+          <h2>Eight things that can quietly falsify a model</h2>
+          <p>Each card names a real issue in this dataset, a threshold worth watching, and the falsifier that would make the conclusion invalid.</p>
+        </div>
+        <div class="signal-grid" id="signalGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>
+        <strong>Source</strong><br>
+        Pima Indians Diabetes Database, UCI Machine Learning Repository. 768 records; 8 features + Outcome. This essay uses only the attached <span class="mono">diabetes.csv</span>.
+      </div>
+      <div>
+        <strong>Scope reminder</strong><br>
+        Every number is computed from this file. The essay is a data-literacy artifact, not medical advice, screening guidance, or a clinical prediction product.
+      </div>
+    </div>
+  </footer>
+
+  <div class="tooltip" id="tooltip" role="tooltip"></div>
+  <script src="assets/d3.min.js"></script>
+  <script src="assets/diabetes-data.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
